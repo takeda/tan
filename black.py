@@ -191,6 +191,7 @@ class FileMode:
     line_length: int = DEFAULT_LINE_LENGTH
     string_normalization: bool = True
     is_pyi: bool = False
+    use_tabs: bool = False
 
     def get_cache_key(self) -> str:
         if self.target_versions:
@@ -279,6 +280,14 @@ def target_version_option_callback(
     help=(
         "Python versions that should be supported by Black's output. [default: "
         "per-file auto-detection]"
+    ),
+)
+@click.option(
+    "--use-tabs",
+    is_flag=True,
+    help=(
+        "Use tabs instead of spaces for indentation. "
+        "Tabs are always equal to 4 spaces."
     ),
 )
 @click.option(
@@ -391,6 +400,7 @@ def main(
     code: Optional[str],
     line_length: int,
     target_version: List[TargetVersion],
+    use_tabs: bool,
     check: bool,
     diff: bool,
     fast: bool,
@@ -426,6 +436,7 @@ def main(
         line_length=line_length,
         is_pyi=pyi,
         string_normalization=not skip_string_normalization,
+        use_tabs=use_tabs,
     )
     if config and verbose:
         out(f"Using configuration from {config}.", bold=False, fg="blue")
@@ -750,9 +761,10 @@ def format_str(src_contents: str, *, mode: FileMode) -> FileContent:
         or supports_feature(versions, Feature.UNICODE_LITERALS),
         is_pyi=mode.is_pyi,
         normalize_strings=mode.string_normalization,
+        tabs=mode.use_tabs,
     )
     elt = EmptyLineTracker(is_pyi=mode.is_pyi)
-    empty_line = Line()
+    empty_line = Line(tabs=mode.use_tabs)
     after = 0
     split_line_features = {
         feature
@@ -1189,6 +1201,7 @@ class Line:
     bracket_tracker: BracketTracker = field(default_factory=BracketTracker)
     inside_brackets: bool = False
     should_explode: bool = False
+    tabs: bool = False
 
     def append(self, leaf: Leaf, preformatted: bool = False) -> None:
         """Add a new `leaf` to the end of the line.
@@ -1556,12 +1569,13 @@ class Line:
             n.type in TEST_DESCENDANTS for n in subscript_start.pre_order()
         )
 
-    def __str__(self) -> str:
+    def render(self, force_spaces: bool = False) -> str:
         """Render the line."""
         if not self:
             return "\n"
 
-        indent = "    " * self.depth
+        indent_style = "    " if force_spaces or not self.use_tabs else "\t"
+        indent = indent_style * self.depth
         leaves = iter(self.leaves)
         first = next(leaves)
         res = f"{first.prefix}{indent}{first.value}"
@@ -1570,6 +1584,9 @@ class Line:
         for comment in itertools.chain.from_iterable(self.comments.values()):
             res += str(comment)
         return res + "\n"
+
+    def __str__(self) -> str:
+        return self.render()
 
     def __bool__(self) -> bool:
         """Return True if the line has leaves or comments."""
@@ -1705,6 +1722,7 @@ class LineGenerator(Visitor[Line]):
     normalize_strings: bool = True
     current_line: Line = field(default_factory=Line)
     remove_u_prefix: bool = False
+    tabs: bool = False
 
     def line(self, indent: int = 0) -> Iterator[Line]:
         """Generate a line.
@@ -1719,7 +1737,7 @@ class LineGenerator(Visitor[Line]):
             return  # Line is empty, don't emit. Creating a new one unnecessary.
 
         complete_line = self.current_line
-        self.current_line = Line(depth=complete_line.depth + indent)
+        self.current_line = Line(depth=complete_line.depth + indent, tabs=self.use_tabs)
         yield complete_line
 
     def visit_default(self, node: LN) -> Iterator[Line]:
@@ -2705,7 +2723,9 @@ def delimiter_split(line: Line, features: Collection[Feature] = ()) -> Iterator[
         if bt.delimiter_count_with_priority(delimiter_priority) == 1:
             raise CannotSplit("Splitting a single attribute from its owner looks wrong")
 
-    current_line = Line(depth=line.depth, inside_brackets=line.inside_brackets)
+    current_line = Line(
+        depth=line.depth, tabs=line.use_tabs, inside_brackets=line.inside_brackets
+    )
     lowest_depth = sys.maxsize
     trailing_comma_safe = True
 
@@ -2717,7 +2737,9 @@ def delimiter_split(line: Line, features: Collection[Feature] = ()) -> Iterator[
         except ValueError:
             yield current_line
 
-            current_line = Line(depth=line.depth, inside_brackets=line.inside_brackets)
+            current_line = Line(
+                depth=line.depth, tabs=line.use_tabs, inside_brackets=line.inside_brackets
+            )
             current_line.append(leaf)
 
     for leaf in line.leaves:
@@ -2741,7 +2763,9 @@ def delimiter_split(line: Line, features: Collection[Feature] = ()) -> Iterator[
         if leaf_priority == delimiter_priority:
             yield current_line
 
-            current_line = Line(depth=line.depth, inside_brackets=line.inside_brackets)
+            current_line = Line(
+                depth=line.depth, tabs=line.use_tabs, inside_brackets=line.inside_brackets
+            )
     if current_line:
         if (
             trailing_comma_safe
@@ -2761,7 +2785,9 @@ def standalone_comment_split(
     if not line.contains_standalone_comments(0):
         raise CannotSplit("Line does not have any standalone comments")
 
-    current_line = Line(depth=line.depth, inside_brackets=line.inside_brackets)
+    current_line = Line(
+        depth=line.depth, tabs=line.use_tabs, inside_brackets=line.inside_brackets
+    )
 
     def append_to_line(leaf: Leaf) -> Iterator[Line]:
         """Append `leaf` to current line or to new line if appending impossible."""
@@ -2771,7 +2797,9 @@ def standalone_comment_split(
         except ValueError:
             yield current_line
 
-            current_line = Line(depth=line.depth, inside_brackets=line.inside_brackets)
+            current_line = Line(
+                depth=line.depth, tabs=line.use_tabs, inside_brackets=line.inside_brackets
+            )
             current_line.append(leaf)
 
     for leaf in line.leaves:
@@ -3942,7 +3970,8 @@ def is_line_short_enough(line: Line, *, line_length: int, line_str: str = "") ->
     Uses the provided `line_str` rendering, if any, otherwise computes a new one.
     """
     if not line_str:
-        line_str = str(line).strip("\n")
+        # Force spaces to ensure len(line) is correct
+        line_str = line.render(force_spaces=True).strip("\n")
     return (
         len(line_str) <= line_length
         and "\n" not in line_str  # multiline strings
