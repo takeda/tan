@@ -380,11 +380,15 @@ class Line:
         )
 
     def __str__(self) -> str:
+        return self.render()
+
+    def render(self, force_spaces: bool = False) -> str:
         """Render the line."""
         if not self:
             return "\n"
 
-        indent = "    " * self.depth
+        indent_style = "    " if force_spaces or not self.use_tabs else "\t"
+        indent = indent_style * self.depth
         leaves = iter(self.leaves)
         first = next(leaves)
         res = f"{first.prefix}{indent}{first.value}"

@@ -317,7 +317,8 @@ def transform_line(
         yield line
         return
 
-    line_str = line_to_string(line)
+    # Force spaces to ensure len(line) is correct
+    line_str = line.render(force_spaces=True).strip("\n")
 
     ll = mode.line_length
     sn = mode.string_normalization

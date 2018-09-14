@@ -247,6 +247,14 @@ def validate_regex(
     ),
 )
 @click.option(
+    "--use-tabs",
+    is_flag=True,
+    help=(
+        "Use tabs instead of spaces for indentation. "
+        "Tabs are always equal to 4 spaces."
+    ),
+)
+@click.option(
     "--check",
     is_flag=True,
     help=(
@@ -399,6 +407,7 @@ def main(
     skip_string_normalization: bool,
     skip_magic_trailing_comma: bool,
     experimental_string_processing: bool,
+    use_tabs: bool,
     quiet: bool,
     verbose: bool,
     required_version: Optional[str],
@@ -469,6 +478,7 @@ def main(
         string_normalization=not skip_string_normalization,
         magic_trailing_comma=not skip_magic_trailing_comma,
         experimental_string_processing=experimental_string_processing,
+        use_tabs=use_tabs,
     )
 
     if code is not None:
