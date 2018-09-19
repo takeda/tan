@@ -53,7 +53,7 @@ DEFAULT_EXCLUDES = (
     r"/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|_build|buck-out|build|dist)/"
 )
 DEFAULT_INCLUDES = r"\.pyi?$"
-CACHE_DIR = Path(user_cache_dir("black", version=__version__))
+CACHE_DIR = Path(user_cache_dir("tan", version=__version__))
 
 
 # types
@@ -3269,7 +3269,7 @@ def assert_equivalent(src: str, dst: str) -> None:
         log = dump_to_file("".join(traceback.format_tb(exc.__traceback__)), dst)
         raise AssertionError(
             f"INTERNAL ERROR: Black produced invalid code: {exc}. "
-            f"Please report a bug on https://github.com/ambv/black/issues.  "
+            f"Please report a bug on https://github.com/jleclanche/tan/issues.  "
             f"This invalid output might be helpful: {log}"
         ) from None
 
@@ -3280,7 +3280,7 @@ def assert_equivalent(src: str, dst: str) -> None:
         raise AssertionError(
             f"INTERNAL ERROR: Black produced code that is not equivalent to "
             f"the source.  "
-            f"Please report a bug on https://github.com/ambv/black/issues.  "
+            f"Please report a bug on https://github.com/jleclanche/tan/issues.  "
             f"This diff might be helpful: {log}"
         ) from None
 
@@ -3298,7 +3298,7 @@ def assert_stable(
         raise AssertionError(
             f"INTERNAL ERROR: Black produced different code on the second pass "
             f"of the formatter.  "
-            f"Please report a bug on https://github.com/ambv/black/issues.  "
+            f"Please report a bug on https://github.com/jleclanche/tan/issues.  "
             f"This diff might be helpful: {log}"
         ) from None
 

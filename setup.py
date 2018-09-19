@@ -26,15 +26,15 @@ def get_version() -> str:
 
 
 setup(
-    name="black",
+    name="tan",
     version=get_version(),
-    description="The uncompromising code formatter.",
+    description="The compromising code formatter.",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     keywords="automation formatter yapf autopep8 pyfmt gofmt rustfmt",
     author="Łukasz Langa",
     author_email="lukasz@langa.pl",
-    url="https://github.com/ambv/black",
+    url="https://github.com/jleclanche/tan",
     license="MIT",
     py_modules=["black", "blackd"],
     packages=["blib2to3", "blib2to3.pgen2"],
@@ -57,5 +57,5 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Software Development :: Quality Assurance",
     ],
-    entry_points={"console_scripts": ["black=black:main", "blackd=blackd:main [d]"]},
+    entry_points={"console_scripts": ["tan=black:main", "tand=blackd:main [d]"]},
 )
