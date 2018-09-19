@@ -44,18 +44,18 @@ else:
     ext_modules = []
 
 setup(
-    name="black",
+    name="tan",
     use_scm_version={
         "write_to": "_black_version.py",
         "write_to_template": 'version = "{version}"\n',
     },
-    description="The uncompromising code formatter.",
+    description="The compromising code formatter.",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     keywords="automation formatter yapf autopep8 pyfmt gofmt rustfmt",
     author="Łukasz Langa",
     author_email="lukasz@langa.pl",
-    url="https://github.com/psf/black",
+    url="https://github.com/jleclanche/tan",
     license="MIT",
     py_modules=["black", "blackd", "_black_version"],
     ext_modules=ext_modules,
@@ -92,9 +92,6 @@ setup(
         "Topic :: Software Development :: Quality Assurance",
     ],
     entry_points={
-        "console_scripts": [
-            "black=black:patched_main",
-            "blackd=blackd:patched_main [d]",
-        ]
+        "console_scripts": ["tan=black:patched_main", "tand=blackd:patched_main [d]"]
     },
 )
