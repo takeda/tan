@@ -1,18 +1,26 @@
-![Black Logo](https://raw.githubusercontent.com/ambv/black/master/docs/_static/logo2-readme.png)
-<h2 align="center">The Uncompromising Code Formatter</h2>
+# Tan
 
-<p align="center">
-<a href="https://travis-ci.org/ambv/black"><img alt="Build Status" src="https://travis-ci.org/ambv/black.svg?branch=master"></a>
-<a href="https://black.readthedocs.io/en/stable/?badge=stable"><img alt="Documentation Status" src="https://readthedocs.org/projects/black/badge/?version=stable"></a>
-<a href="https://coveralls.io/github/ambv/black?branch=master"><img alt="Coverage Status" src="https://coveralls.io/repos/github/ambv/black/badge.svg?branch=master"></a>
-<a href="https://github.com/ambv/black/blob/master/LICENSE"><img alt="License: MIT" src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
-<a href="https://pypi.org/project/black/"><img alt="PyPI" src="https://black.readthedocs.io/en/stable/_static/pypi.svg"></a>
-<a href="https://pepy.tech/project/black"><img alt="Downloads" src="https://pepy.tech/badge/black"></a>
-<a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-</p>
+Tan is a fork of [Black](https://github.com/ambv/black), a code formatter.
 
-> “Any color you like.”
+Tan implements support for tab indent with the --use-tabs command line argument.
 
+
+## A personal note
+
+I hate forking. But I use tabs and contribute to many projects that use tabs.
+@ambv, the original author of Black, [doesn't even want to discuss Tab support](https://github.com/ambv/black/pull/513).
+
+So what choice do I have?
+
+Dear open source project maintainers: Please don't behave like this.
+It doesn't reflect well on you or on your project. And in this case, it doesn't reflect well on the Python community as a whole.
+
+In other words, don't be a zealot, even with your own project.
+
+Original README.md follows.
+
+
+# Black
 
 *Black* is the uncompromising Python code formatter.  By using it, you
 agree to cede control over minutiae of hand-formatting.  In return,
@@ -780,14 +788,14 @@ Options:
 ### Protocol
 
 `blackd` only accepts `POST` requests at the `/` path. The body of the request
-should contain the python source code to be formatted, encoded 
+should contain the python source code to be formatted, encoded
 according to the `charset` field in the `Content-Type` request header. If no
 `charset` is specified, `blackd` assumes `UTF-8`.
 
 There are a few HTTP headers that control how the source is formatted. These
 correspond to command line flags for *Black*. There is one exception to this:
 `X-Protocol-Version` which if present, should have the value `1`, otherwise the
-request is rejected with `HTTP 501` (Not Implemented). 
+request is rejected with `HTTP 501` (Not Implemented).
 
 The headers controlling how code is formatted are:
 
