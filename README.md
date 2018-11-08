@@ -231,13 +231,13 @@ the following configuration.
 multi_line_output=3
 include_trailing_comma=True
 force_grid_wrap=0
-combine_as_imports=True
+use_parentheses=True
 line_length=88
 ```
 
 The equivalent command line is:
 ```
-$ isort --multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width=88 [ file.py ]
+$ isort --multi-line=3 --trailing-comma --force-grid-wrap=0 --use-parentheses --line-width=88 [ file.py ]
 ```
 </details>
 
@@ -273,7 +273,7 @@ ignore = E501
 ```
 
 You'll find *Black*'s own .flake8 config file is configured like this.
-If you're curious about the reasoning behind B950, 
+If you're curious about the reasoning behind B950,
 [Bugbear's documentation](https://github.com/PyCQA/flake8-bugbear#opinionated-warnings)
 explains it.  The tl;dr is "it's like highway speed limits, we won't
 bother you if you overdo it by a few km/h".
@@ -536,7 +536,7 @@ other file.
 If you're running with `--verbose`, you will see a blue message if
 a file was found and used.
 
-Please note `blackd` will not use `pyproject.toml` configuration. 
+Please note `blackd` will not use `pyproject.toml` configuration.
 
 
 ### Configuration format
