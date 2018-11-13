@@ -1912,7 +1912,7 @@ def container_of(leaf: Leaf) -> LN:
     return container
 
 
-def is_split_after_delimiter(leaf: Leaf, previous: Leaf = None) -> int:
+def is_split_after_delimiter(leaf: Leaf, previous: Optional[Leaf] = None) -> int:
     """Return the priority of the `leaf` delimiter, given a line break after it.
 
     The delimiter priorities returned here are from those delimiters that would
@@ -1926,7 +1926,7 @@ def is_split_after_delimiter(leaf: Leaf, previous: Leaf = None) -> int:
     return 0
 
 
-def is_split_before_delimiter(leaf: Leaf, previous: Leaf = None) -> int:
+def is_split_before_delimiter(leaf: Leaf, previous: Optional[Leaf] = None) -> int:
     """Return the priority of the `leaf` delimiter, given a line break before it.
 
     The delimiter priorities returned here are from those delimiters that would
