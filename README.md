@@ -4,19 +4,6 @@ Tan is a fork of [Black](https://github.com/ambv/black), a code formatter.
 
 Tan implements support for tab indent with the --use-tabs command line argument.
 
-
-## A personal note
-
-I hate forking. But I use tabs and contribute to many projects that use tabs.
-@ambv, the original author of Black, [doesn't even want to discuss Tab support](https://github.com/ambv/black/pull/513).
-
-So what choice do I have?
-
-Dear open source project maintainers: Please don't behave like this.
-It doesn't reflect well on you or on your project. And in this case, it doesn't reflect well on the Python community as a whole.
-
-In other words, don't be a zealot, even with your own project.
-
 Original README.md follows.
 
 
