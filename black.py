@@ -2335,7 +2335,7 @@ def bracket_split_build_line(
     If `is_body` is True, the result line is one-indented inside brackets and as such
     has its first leaf's prefix normalized and a trailing comma added when expected.
     """
-    result = Line(depth=original.depth)
+    result = Line(depth=original.depth, tabs=original.tabs)
     if is_body:
         result.inside_brackets = True
         result.depth += 1
