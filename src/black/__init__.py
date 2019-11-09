@@ -272,6 +272,7 @@ class Mode:
             str(self.line_length),
             str(int(self.string_normalization)),
             str(int(self.is_pyi)),
+            str(int(self.use_tabs)),
         ]
         return ".".join(parts)
 
