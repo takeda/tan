@@ -50,8 +50,6 @@ setup(
         "write_to_template": 'version = "{version}"\n',
     },
     description="The compromising code formatter.",
-    long_description=get_long_description(),
-    long_description_content_type="text/markdown",
     keywords="automation formatter yapf autopep8 pyfmt gofmt rustfmt",
     author="Łukasz Langa",
     author_email="lukasz@langa.pl",
