@@ -983,6 +983,9 @@ More details can be found in [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Change Log
 
+### 20.0.0
+- Add --use-tabs argument
+
 ### 19.10b0
 
 - added support for PEP 572 assignment expressions (#711)
