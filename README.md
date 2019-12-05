@@ -983,6 +983,9 @@ More details can be found in [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Change Log
 
+### 20.0.2
+- Fix --use-tabs not being cached properly
+
 ### 20.0.1
 - Add --use-tabs argument
 
