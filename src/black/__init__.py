@@ -1778,6 +1778,7 @@ class Line:
             depth=self.depth,
             inside_brackets=self.inside_brackets,
             should_explode=self.should_explode,
+            use_tabs=self.use_tabs,
         )
 
     def render(self, force_spaces: bool = False) -> str:
@@ -4359,6 +4360,7 @@ class StringParenWrapper(CustomSplitMapMixin, BaseStringSplitter):
             depth=line.depth + 1,
             inside_brackets=True,
             should_explode=line.should_explode,
+            use_tabs=line.use_tabs,
         )
         string_leaf = Leaf(token.STRING, string_value)
         insert_str_child(string_leaf)
