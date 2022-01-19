@@ -387,7 +387,7 @@ class Line:
         if not self:
             return "\n"
 
-        indent_style = "    " if force_spaces or not self.use_tabs else "\t"
+        indent_style = "    " if force_spaces or not self.mode.use_tabs else "\t"
         indent = indent_style * self.depth
         leaves = iter(self.leaves)
         first = next(leaves)
