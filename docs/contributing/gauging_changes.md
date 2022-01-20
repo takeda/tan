@@ -37,7 +37,7 @@ If you're running locally yourself to test black on lots of code try:
 
 ### CLI arguments
 
-```{program-output} black-primer --help
+```{program-output} tan-primer --help
 
 ```
 
